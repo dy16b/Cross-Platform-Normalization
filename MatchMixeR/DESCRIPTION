@@ -1,0 +1,13 @@
+Package: MatchMixeR
+Type: Package
+Title: MatchMixeR: a cross-platform normalization tool
+Version: 0.1.1
+Author: Serin Zhang, Xing Qiu, Jinfeng Zhang
+Maintainer: Serin Zhang <serin20@gmail.com>
+Description: A matched sample based mixed effect regression model for cross-platform normalization
+License: GPL (>= 2)
+Encoding: UTF-8
+VignetteBuilder: knitr
+Suggests: knitr, rmarkdown, limma
+LazyData: true
+RoxygenNote: 6.1.1

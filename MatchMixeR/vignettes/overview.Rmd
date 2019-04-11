@@ -1,0 +1,43 @@
+---
+title: "MatchMixeR User Guide"
+author: "Xing Qiu, Serin Zhang"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{MatchMixeR User Guide}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r load-package}
+
+library(MatchMixeR)
+
+```
+
+In this Vignette, we describe the basic usage of the `MatchMixeR` package. This package implements a fast liner mixed effect model for cross-platform normalization of high throughput genomic data using matched samples. Below we describe the inspiring problem and the usage of the main R function, `MM()`. 
+
+## Introduction
+
+We will briefly describe a motivating problem for which the `MM` package is applicable.
+
+Cross-platform normalization method is highly demanding for data integration across different studies as researchers have more access to pre-existing gene expression data stored in public repositories. However, the systematic difference from heterogeneous features of high throughput techniques makes the data integration difficult. Several methods for cross-platform normalization have been proposed and their normalized data show high cross-platform concordance. However, their methods can also reduce the biological difference by chance since the biological effect can be compounded with the non-biological effects. 
+
+Therefore, we proposed a new cross platform normalization method to eliminate only the heterogeneity caused by different platforms and preserve the biological information by employing matched samples which have only platform differences. In our method, a benchmark linear fixed effect regression model is acquired from a matched sample data and apply it to the research data to be combined. We call our method as Match-MixeR which means a matched sample based cross-platform normalization method using mixed effect regression model. 
+
+## Fast LMER 
+In the typical LMER model, the $\hat{{\theta}}$ can be estimated by maximum likelihood(ML) or restricted maximum likelihood (REML) method and modern LMER algorithms use the REML by default because the ML method has some bias. However,  both ML and REML methods are time consuming since they rely on inverting large matrices and iterative optimization procedure. So we proposed a new fast solution using moment matching algorithm. 
+
+## Practical workaraound for cross-platform normalization of gene expression data
+The original FLMER assumes that the
+covariance structure of the random intercepts and slopes is a
+scalar matrix of form $\sigma_{\gamma}^2 \mathbf{I}$. In cross-platform normalization study, the variance of random intercepts may be many times larger than that of the random slopes.  
+If we model all these three parameters in the FLMER algorithm, we will need three independent moment matching equations, which will create more uncertainties in the estimator and dramatically reduce the computational efficiency. In other words, to include too many unknown parameters in the model defeats the very purpose of FLMER. 
+
+As an alternative, we propose the following practical and fast workaround.
+
+## Usage examples
+The primary function in our package is `MM()`.  It takes the following primary arguments: `Xmat` and `Ymat`. Here `Xmat` and Here `Xmat` are $m\times n$ dimensional matched samples gene expression matrices. The MM function fits mixed effect regression model and gives the $\hat{{Y}}$, the transformed values for the gene expression values in Xmat. Here, only the values in platform X will be changed for data integration. One can assigne platform X and platform Y by considering the sample size and the popularity of the platforms.  
+
+
+
